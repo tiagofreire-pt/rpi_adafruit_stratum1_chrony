@@ -1,5 +1,5 @@
 # Raspberry PI 3B+ NTP Server Stratum 1 with Adafruit GPS HAT
-A straightforward approach to achieve a cost-effective Stratum 1 NTP server using a Raspberry Pi 3B+ and an Adafruit GPS HAT MK3301.
+A straightforward approach to achieve a cost-effective Stratum 1 NTP server using a Raspberry Pi 3B+ and an Adafruit GPS HAT MTK3339.
 
 This is my recipe for Rasbian Bullseye, kernel 5.10.103-v7+.
 
@@ -29,7 +29,7 @@ Achievements @ April 2022:
 remove this sequence only and save: 
 ```console=serial0,115200```
 
-## Configuring the Raspberry PI
+## Configure the Raspberry PI
 
 Add this to your '/boot/config.txt' file
 
