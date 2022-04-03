@@ -1,7 +1,7 @@
 # Raspberry PI 3B+ NTP Server Stratum 1 with Adafruit GPS HAT
 A straightforward approach to achieve a cost-effective Stratum 1 NTP server using a Raspberry Pi 3B+ and an Adafruit Ultimate GPS HAT MTK3339.
 
-This is my recipe for Rasbian Bullseye, kernel 5.10.103-v7+.
+This is my recipe for Raspbian Bullseye, kernel 5.10.103-v7+.
 
 Achievements @ April 2022:
 - [X] ns local clock timekeeping (std dev 95 ns)
@@ -9,6 +9,7 @@ Achievements @ April 2022:
 - [X] stable operation with low frequency value (< 10 ppm)
 - [X] serve time to more than 160 clients
 - [ ] correct the timekeeping deviation from ambient temperature flutuation
+- [ ] replace the fake RPI RTC with a DS3231 high precision one.
 
 ## Upgrade your system and install the required software
 > sudo apt update && sudo apt upgrade -y
