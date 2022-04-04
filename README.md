@@ -1,5 +1,7 @@
-# Raspberry PI 3B+ NTP Server Stratum 1 with Adafruit GPS HAT
-A straightforward approach to achieve a cost-effective Stratum 1 NTP server using a Raspberry Pi 3B+ and an Adafruit Ultimate GPS HAT MTK3339.
+# Raspberry PI 3B+ NTP Server - Stratum 1
+A straightforward approach to achieve a cost-effective Stratum 1 NTP server using a Raspberry Pi 3B+ and an Adafruit Ultimate GPS HAT MTK3339. Prepared to be used with off-the-grid applications such as IoT in remote locations/air-gapped systems or WAN connected IoT ones (as presented here).
+
+![The Server Fully Assembled](./img/rpi_fully_assembled.jpg)
 
 This is my recipe for Raspberry PI OS `Bullseye`, kernel 5.10.103-v7+.
 
@@ -8,8 +10,29 @@ Achievements @ April 2022:
 - [X] µs timekeeping across multiple networks (std dev 35 µs)
 - [X] stable operation with low frequency value (< 10 ppm)
 - [X] serve time to more than 160 clients
-- [ ] correct the timekeeping deviation from ambient temperature flutuation
+- [ ] correct the timekeeping skew n from ambient temperature flutuation
 - [ ] replace the fake RPI RTC with a DS3231 high precision one.
+
+# List of materials and tools needed
+
+**Mandatory**:
+- Soldering iron to attach the pins to the Adafruit HAT
+- SD Card with 8GB or more
+- USB SD Card reader or other similar device to install Raspberry PI OS on the SD Card.
+- Raspberry PI 3B+ with a suitable power adaptor
+- Adafruit Ultimate GPS HAT
+- RJ45 Ethernet CAT5 (or better) cable with proper lenght
+
+**Optional** :
+- 3D printed case housing the fully assembled server. 
+  > I suggest this [top](./stl/case_top_custom.stl) and this [buttom](https://www.thingiverse.com/thing:4200246) parts.
+  > PLA or PETG are generally appropriate, depending on the ambient temperature and environment you'll apply this server in.
+- 4x 2.5mm X 10mm bolts and nuts
+- CR1220 battery for the MK3339
+- External GPS Active Antenna 28dB Gain 3-5V DC with 5 meters of cable leght and SMA male connector
+- SMA female connector to IPEX (UFL) Adapter
+
+# Setup the server
 
 ## Upgrade your system and install the required software
 > sudo apt update && sudo apt upgrade -y
@@ -27,33 +50,30 @@ Achievements @ April 2022:
 ## Disable the kernel support for the serial TTY:
 > sudo nano /boot/cmdline.txt
 
-remove this sequence only and save: 
-```console=serial0,115200```
+remove this ```console=serial0,115200``` sequence only and save.
+
 
 ## Configure the Raspberry PI
 
 Add this to your '/boot/config.txt' file
 
 ```
-# Use the /dev/ttyAMA0 UART GPS instead of Bluetooth
-dtoverlay=disable-bt
-
-# https://hallard.me/enable-serial-port-on-raspberry-pi/
+# Uses the /dev/ttyAMA0 UART GPS instead of Bluetooth
 dtoverlay=miniuart-bt
 
-# Disable Wifi for better accuracy and lower interferance
+# Disables Bluetooth for better accuracy and lower interferance - optional
+dtoverlay=disable-bt
+
+# Disables Wifi for better accuracy and lower interferance - optional
 dtoverlay=disable-wifi
 
-# Enable UART serial - http://www.philrandal.co.uk/blog/archives/2019/04/entry_213.html
-#enable_uart=1
-
-# enable GPS PPS
+# Configures the GPS with PPS gpio support
 dtoverlay=pps-gpio,gpiopin=4
 
-# Disable kernel power saving
+# Disables kernel power saving
 nohz=off
 
-# Disable Energy Efficient Ethernet - improves jitter and lag (~200us)
+# Disables Energy Efficient Ethernet - improves jitter and lag (~200us)
 dtparam=eee=off
 
 # Force CPU high speed clock
@@ -156,9 +176,9 @@ Replace all the content with:
 confdir /etc/chrony/conf.d
 
 # Use Debian vendor zone.
-#pool 2.debian.pool.ntp.org iburst
+# pool 2.debian.pool.ntp.org iburst
 
-# Use the Portuguese zone ** CHANGE THIS **
+# Use the Portuguese zone ** CHANGE THIS ** -- DISABLE THIS FOR AIR-GAPPED SYSTEMS
 pool 0.pt.pool.ntp.org iburst minpoll 5 maxpoll 5
 
 # Use time sources from DHCP.
@@ -230,11 +250,10 @@ dscp 48
 # the other sources and avoid the falseticker status
 refclock SHM 0 refid GPS precision 1e-1 offset 0.47 delay 0.2
 
-# (4ns per foot)-  http://www.philrandal.co.uk/blog/archives/2019/04/entry_213.html
+# Adds also 4 ns signal propagation delay per each 304,8mm of cable lenght, from the external GPS antenna to the board - if applicable
 refclock SHM 1 refid PPS precision 1e-7 prefer offset 65.62e-9
 
-# https://chrony.tuxfamily.org/doc/4.2/chrony.conf.html#tempcomp
-# Compara a temperatura real com a de correção a cada 30 segundos
+# Compares and saves the SoC temperature with the temperature correlation table bellow, every 30 seconds - future improvement
 tempcomp /sys/class/thermal/thermal_zone0/temp 30 /etc/chrony/chrony.tempcomp
 ```
 
@@ -259,3 +278,5 @@ tempcomp /sys/class/thermal/thermal_zone0/temp 30 /etc/chrony/chrony.tempcomp
 - https://wiki.polaire.nl/doku.php?id=dragino_lora_gps_hat_ntp
 - http://www.philrandal.co.uk/blog/archives/2019/04/entry_213.html
 - https://chrony.tuxfamily.org/doc/4.2/chrony.conf.html#tempcomp
+- https://hallard.me/enable-serial-port-on-raspberry-pi/
+- http://www.philrandal.co.uk/blog/archives/2019/04/entry_213.html
