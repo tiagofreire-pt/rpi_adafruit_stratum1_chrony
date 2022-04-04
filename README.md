@@ -14,7 +14,7 @@ This is my recipe for Raspberry PI OS `Bullseye`, kernel 5.10.103-v7+.
 - [X] µs timekeeping across multiple networks (std dev < 100 µs)
 - [X] stable operation with low frequency value (usually < 10 ppm)
 - [X] serve time to more than 160 clients (capable of many more)
-- [ ] correct the timekeeping skew n from ambient temperature flutuation
+- [ ] correct the timekeeping skew from ambient temperature flutuation
 - [ ] replace the fake RPI RTC with a DS3231 high precision one.
 
 ![Chrony Source Statistics after 1 week of uptime](./img/chrony_sourcestats_apr_2022.JPG)
@@ -35,7 +35,7 @@ This is my recipe for Raspberry PI OS `Bullseye`, kernel 5.10.103-v7+.
   > PLA or PETG are generally appropriate, depending on the ambient temperature and environment you'll apply this server in.
 - 4x 2.5mm X 10mm bolts and nuts
 - CR1220 battery for the MK3339
-- External GPS Active Antenna 28dB Gain 3-5V DC with 5 meters of cable leght and SMA male connector
+- Outdoor GPS active antenna with 28dB Gain, inline powered at 3-5V DC, with 5 meters of cable lenght and SMA male connector
 - SMA female connector to IPEX (UFL) Adapter
 
 # Setup the server
@@ -53,7 +53,7 @@ This is my recipe for Raspberry PI OS `Bullseye`, kernel 5.10.103-v7+.
 > 
 > sudo systemctl disable hciuart
 
-## Disable the kernel support for the serial TTY:
+## Disable the kernel support for the serial TTY
 > sudo nano /boot/cmdline.txt
 
 remove this ```console=serial0,115200``` sequence only and save.
