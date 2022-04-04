@@ -24,8 +24,8 @@ Achievements @ April 2022:
 - RJ45 Ethernet CAT5 (or better) cable with proper lenght
 
 **Optional** :
-- 3D printed case housing the fully assembled server. 
-  > I suggest this [top](./stl/case_top_custom.stl) and this [buttom](https://www.thingiverse.com/thing:4200246) parts.
+- 3D printed case for housing the fully assembled server. 
+  > I suggest this [top](./stl/case_top_custom.stl) and this [bottom](https://www.thingiverse.com/thing:4200246) parts.
   > PLA or PETG are generally appropriate, depending on the ambient temperature and environment you'll apply this server in.
 - 4x 2.5mm X 10mm bolts and nuts
 - CR1220 battery for the MK3339
@@ -279,4 +279,5 @@ tempcomp /sys/class/thermal/thermal_zone0/temp 30 /etc/chrony/chrony.tempcomp
 - http://www.philrandal.co.uk/blog/archives/2019/04/entry_213.html
 - https://chrony.tuxfamily.org/doc/4.2/chrony.conf.html#tempcomp
 - https://hallard.me/enable-serial-port-on-raspberry-pi/
-- http://www.philrandal.co.uk/blog/archives/2019/04/entry_213.html
+- https://www.thingiverse.com/thing:2980860 *(top case part original design, not available ony more)*
+- https://www.thingiverse.com/thing:4200246
