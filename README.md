@@ -186,7 +186,7 @@ confdir /etc/chrony/conf.d
 # Use Debian vendor zone.
 # pool 2.debian.pool.ntp.org iburst
 
-# Use the Portuguese zone ** CHANGE THIS ** -- DISABLE THIS FOR AIR-GAPPED SYSTEMS
+# Use the Portuguese zone ** CHANGE THIS ** -- DISABLE THIS FOR ISOLATED SYSTEMS
 pool 0.pt.pool.ntp.org iburst minpoll 5 maxpoll 5
 
 # Use time sources from DHCP.
