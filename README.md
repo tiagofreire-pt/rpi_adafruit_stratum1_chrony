@@ -6,12 +6,14 @@ A straightforward approach to achieve a cost-effective Stratum 1 NTP server usin
 This is my recipe for Raspberry PI OS `Bullseye`, kernel 5.10.103-v7+.
 
 Achievements @ April 2022:
-- [X] ns local clock timekeeping (std dev 95 ns)
-- [X] µs timekeeping across multiple networks (std dev 35 µs)
+- [X] ns local clock timekeeping (std dev < 200 ns on PPS source)
+- [X] µs timekeeping across multiple networks (std dev < 100 µs)
 - [X] stable operation with low frequency value (< 10 ppm)
 - [X] serve time to more than 160 clients
 - [ ] correct the timekeeping skew n from ambient temperature flutuation
 - [ ] replace the fake RPI RTC with a DS3231 high precision one.
+
+![Chrony Source Statistics after 1 week of uptime](./img/chrony_sourcestats_apr_2022.JPG)
 
 # List of materials and tools needed
 
