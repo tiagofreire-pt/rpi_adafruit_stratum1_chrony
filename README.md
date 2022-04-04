@@ -1,15 +1,19 @@
 # Raspberry PI 3B+ NTP Server - Stratum 1
-A straightforward approach to achieve a cost-effective Stratum 1 NTP server using a Raspberry Pi 3B+ and an Adafruit Ultimate GPS HAT MTK3339. Prepared to be used with off-the-grid applications such as IoT in remote locations/air-gapped systems or WAN connected IoT ones (as presented here).
+A straightforward approach to achieve a cost-effective (~100€) Stratum 1 NTP server, coordinated with highly precise PPS (Pulse Per Second) sourced from the GPS radio service plus NTP public servers across the internet to get the absolute time reference.
+
+Can be prepared to be used with *off-the-grid* applications such as IoT in remote locations/air-gapped systems or WAN connected IoT ones (as presented here).
+
+The end result with a Raspberry Pi 3B+ and an Adafruit Ultimate GPS HAT MTK3339:
 
 ![The Server Fully Assembled](./img/rpi_fully_assembled.jpg)
 
 This is my recipe for Raspberry PI OS `Bullseye`, kernel 5.10.103-v7+.
 
-Achievements @ April 2022:
+### Achievements @ April 2022:
 - [X] ns local clock timekeeping (std dev < 200 ns on PPS source)
 - [X] µs timekeeping across multiple networks (std dev < 100 µs)
-- [X] stable operation with low frequency value (< 10 ppm)
-- [X] serve time to more than 160 clients
+- [X] stable operation with low frequency value (usually < 10 ppm)
+- [X] serve time to more than 160 clients (capable of many more)
 - [ ] correct the timekeeping skew n from ambient temperature flutuation
 - [ ] replace the fake RPI RTC with a DS3231 high precision one.
 
@@ -100,7 +104,7 @@ Add the content:
 KERNEL=="ttyAMA0", RUN+="/bin/setserial /dev/ttyAMA0 low_latency"
 ```
 
-## Force the CPU governor from boot, being always 'perfomance'
+## Force the CPU governor from boot, being always 'performance', aiming better timekeeping resolution
 > sudo nano /etc/init.d/raspi-config
 
 Replace all the content with:
@@ -163,6 +167,8 @@ USBAUTO=”false”
 DEVICES=”/dev/ttyAMA0 /dev/pps0″
 GPSD_OPTIONS=”-n”
 ```
+Restart the GPSd service:
+
 > sudo systemctl restart gpsd
 
 ## Setup chrony as the service for the NTP server
