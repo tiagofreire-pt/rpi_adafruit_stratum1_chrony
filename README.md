@@ -219,6 +219,13 @@ log tracking measurements statistics tempcomp
 # Log files location.
 logdir /var/log/chrony
 
+# The lock_all directive will lock chronyd into RAM so that it will
+# never be paged out. This mode is only supported on Linux. This
+# directive uses the Linux mlockall() system call to prevent chronyd
+# from ever being swapped out. This should result in lower and more
+# consistent latency.
+lock_all
+
 # Stop bad estimates upsetting machine clock.
 maxupdateskew 100.0
 
