@@ -214,7 +214,7 @@ ntsdumpdir /var/lib/chrony
 
 # Uncomment the following line to turn logging on.
 #log tracking measurements statistics 
-log tracking measurements statistics tempcomp
+log rawmeasurements measurements statistics tracking refclocks tempcomp
 
 # Log files location.
 logdir /var/log/chrony
