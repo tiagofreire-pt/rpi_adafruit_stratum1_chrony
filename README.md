@@ -187,6 +187,7 @@ confdir /etc/chrony/conf.d
 # pool 2.debian.pool.ntp.org iburst
 
 # Use the Portuguese zone ** CHANGE THIS ** -- DISABLE THIS FOR ISOLATED SYSTEMS
+# https://gpsd.gitlab.io/gpsd/gpsd-time-service-howto.html#_arp_is_the_sound_of>
 pool 0.pt.pool.ntp.org iburst minpoll 5 maxpoll 5
 
 # Use time sources from DHCP.
