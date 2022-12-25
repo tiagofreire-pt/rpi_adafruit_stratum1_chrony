@@ -9,11 +9,13 @@ The end result with a Raspberry Pi 3B+ and an Adafruit Ultimate GPS HAT MTK3339:
 
 This is my recipe for Raspberry PI OS `Bullseye`, kernel 5.10.103-v7+.
 
-### Achievements @ April 2022:
+## Achievements @ December 2022:
 - [X] ns local clock timekeeping (std dev < 200 ns on PPS source)
 - [X] µs timekeeping across multiple networks (std dev < 100 µs)
 - [X] stable operation with low frequency value (usually < 10 ppm)
 - [X] serve time to more than 160 clients (capable of many more)
+- [X] optimize the MK3339 for NMEA timming only
+- [X] increase the serial baudrate to its maximum (up to 57600 bps)
 - [ ] correct the timekeeping skew from ambient temperature flutuation
 - [ ] replace the fake RPI RTC with a DS3231 high precision one.
 
@@ -273,8 +275,11 @@ refclock SHM 1 refid PPS precision 1e-7 prefer offset 65.62e-9
 tempcomp /sys/class/thermal/thermal_zone0/temp 30 /etc/chrony/chrony.tempcomp
 ```
 
+
 > sudo nano /etc/chrony/chrony.tempcomp 
-#### Add the content:
+
+Add the content:
+
 ```
 20000 0
 21000 0
@@ -283,11 +288,62 @@ tempcomp /sys/class/thermal/thermal_zone0/temp 30 /etc/chrony/chrony.tempcomp
 40000 0
 ```
 
+Restart the chrony service:
 > sudo systemctl restart chronyd.service
+
 
 ## Check the sources for correct operation
 > watch chronyc sources -v
 
+Wait for 15 minutes, allowing the system clock to converge into a proper offset range, around sub milisecond.
+
+# Advanced Adafruit MK3339 chip tunning
+
+> __Warning__ Proceed with caution and at your own risk!
+
+## Set NMEA sentences for timming only
+
+Change the NMEA settings, sending exclusivly the timing one (`$GPRMC`), reducing the jitter on the `GPS` `refclock`:
+
+Stop the gpsd service:
+> sudo service gpsd stop
+
+Set the instruction:
+
+```echo -e '$PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n' > /dev/ttyAMA0```
+
+Restart the gpsd service:
+> sudo service gpsd start
+
+### Revert to the default setting
+
+Although the new setting is non-persistant, you might need to revert to the default one:
+> echo -e '$PMTK314,-1*04\r\n' > /dev/ttyAMA0
+
+As a failsafe, you might power it off and remove the CR1220 battery for a few minutes.
+
+## Set the MK3339 baudrate to its maximum
+
+This reduces even further the NMEA sentences processing latency, by increasing the transmission speed.
+
+Stop the gpsd service:
+> sudo service gpsd stop
+
+Set the baudrate to 57600 bps:
+> echo -e '$PMTK251,57600*2C\r\n' > /dev/ttyAMA0
+
+Restart the gpsd service
+> sudo service gpsd start
+
+Set the linux device file (`/dev/ttyAMA0`) to the new baudrate:
+> sudo stty -F /dev/ttyAMA0 57600
+
+### Revert to the default setting
+
+Although the new setting is non-persistant, you might need to revert to the default one:
+> echo -e '$PMTK251,9600*17\r\n' > /dev/ttyAMA0
+
+As a failsafe, you might power it off and remove the CR1220 battery for a few minutes.
 
 # References
 - http://www.gregledet.net/computers/building-a-stratum-1-ntp-server-with-a-raspberry-pi-4-and-adafruit-ultimate-gps-hat/
@@ -297,3 +353,4 @@ tempcomp /sys/class/thermal/thermal_zone0/temp 30 /etc/chrony/chrony.tempcomp
 - https://hallard.me/enable-serial-port-on-raspberry-pi/
 - https://www.thingiverse.com/thing:2980860 *(top case part original design, not available ony more)*
 - https://www.thingiverse.com/thing:4200246
+- https://dimon.ca/how-to-build-own-stratum-1-ntp-server/#h.1kdm8ehjrplc
