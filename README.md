@@ -190,7 +190,8 @@ confdir /etc/chrony/conf.d
 
 # Use the Portuguese zone ** CHANGE THIS ** -- DISABLE THIS FOR ISOLATED SYSTEMS
 # https://gpsd.gitlab.io/gpsd/gpsd-time-service-howto.html#_arp_is_the_sound_of>
-pool 0.pt.pool.ntp.org iburst minpoll 5 maxpoll 5
+pool 0.pt.pool.ntp.org iburst minpoll 5 maxpoll 5 polltarget 16 maxdelay 0.030 maxdelaydevratio 2 maxsources 6
+pool 1.pt.pool.ntp.org iburst minpoll 5 maxpoll 5 polltarget 16 maxdelay 0.030 maxdelaydevratio 2 maxsources 6
 
 # Use time sources from DHCP.
 #sourcedir /run/chrony-dhcp
@@ -363,3 +364,4 @@ As a failsafe, you might power it off and remove the CR1220 battery for a few mi
 - https://www.thingiverse.com/thing:4200246
 - https://dimon.ca/how-to-build-own-stratum-1-ntp-server/#h.1kdm8ehjrplc
 - https://psychogun.github.io/docs/linux/Stratum-1-NTP-Server-using-Raspberry-Pi/
+- https://chrony.tuxfamily.org/faq.html#_how_can_i_improve_the_accuracy_of_the_system_clock_with_ntp_sources
