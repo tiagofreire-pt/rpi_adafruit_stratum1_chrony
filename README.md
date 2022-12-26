@@ -255,7 +255,7 @@ makestep 1 3
 # leap-smeared time.
 leapsectz right/UTC
 
-# Defining the networks allowed to access the service
+# Defining the networks allowed to access the service - DISABLE THIS FOR ISOLATED/AIRGAPED SYSTEMS
 allow
 
 # Expedited Forwarding DSCP directive traffic
