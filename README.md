@@ -1,5 +1,5 @@
 # Raspberry PI 3B+ NTP Server - Stratum 1
-A straightforward approach to achieve a cost-effective (~100€) Stratum 1 NTP server, coordinated with highly precise PPS (Pulse Per Second) sourced from the GPS radio service plus NTP public servers across the internet to get the absolute time reference.
+A straightforward and optimized approach to achieve a cost-effective (~100€) Stratum 1 NTP server, coordinated with highly precise PPS (Pulse Per Second) sourced from the GPS radio service plus NTP public servers across the internet to get the absolute time reference.
 
 Can be prepared to be used with *off-the-grid* applications such as IoT in remote locations/air-gapped systems or WAN connected IoT ones (as presented here).
 
@@ -188,10 +188,12 @@ confdir /etc/chrony/conf.d
 # Use Debian vendor zone.
 # pool 2.debian.pool.ntp.org iburst
 
-# Use the Portuguese zone ** CHANGE THIS ** -- DISABLE THIS FOR ISOLATED SYSTEMS
-# https://gpsd.gitlab.io/gpsd/gpsd-time-service-howto.html#_arp_is_the_sound_of>
+# Portuguese zone ** CHANGE THIS ** -- DISABLE THIS FOR ISOLATED/AIRGAPED SYSTEMS
 pool 0.pt.pool.ntp.org iburst minpoll 5 maxpoll 5 polltarget 16 maxdelay 0.030 maxdelaydevratio 2 maxsources 6
 pool 1.pt.pool.ntp.org iburst minpoll 5 maxpoll 5 polltarget 16 maxdelay 0.030 maxdelaydevratio 2 maxsources 6
+
+# ENABLE THIS FOR ISOLATED/AIRGAPED SYSTEMS
+#cmdport 0
 
 # Use time sources from DHCP.
 #sourcedir /run/chrony-dhcp
@@ -362,6 +364,7 @@ As a failsafe, you might power it off and remove the CR1220 battery for a few mi
 - https://hallard.me/enable-serial-port-on-raspberry-pi/
 - https://www.thingiverse.com/thing:2980860 *(top case part original design, not available ony more)*
 - https://www.thingiverse.com/thing:4200246
+- https://gpsd.gitlab.io/gpsd/gpsd-time-service-howto.html#_arp_is_the_sound_of_your_server_choking
 - https://dimon.ca/how-to-build-own-stratum-1-ntp-server/#h.1kdm8ehjrplc
 - https://psychogun.github.io/docs/linux/Stratum-1-NTP-Server-using-Raspberry-Pi/
 - https://chrony.tuxfamily.org/faq.html#_how_can_i_improve_the_accuracy_of_the_system_clock_with_ntp_sources
