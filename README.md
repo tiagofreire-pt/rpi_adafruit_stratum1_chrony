@@ -297,9 +297,9 @@ Restart the chrony service:
 
 Wait for 15 minutes, allowing the system clock to converge into a proper offset range, around sub milisecond.
 
-# Advanced Adafruit MK3339 chip tunning
+# Advanced Adafruit MK3339 chip tuning
 
-> __Warning__ Proceed with caution and at your own risk!
+> __Warning__ This is optional! Proceed with caution and at your own risk!
 
 ## Set NMEA sentences for timming only
 
@@ -332,11 +332,19 @@ Stop the gpsd service:
 Set the baudrate to 57600 bps:
 > echo -e '$PMTK251,57600*2C\r\n' > /dev/ttyAMA0
 
-Restart the gpsd service
-> sudo service gpsd start
+### Setup the GPSd daemon
+> sudo nano /etc/default/gpsd
 
-Set the linux device file (`/dev/ttyAMA0`) to the new baudrate:
-> sudo stty -F /dev/ttyAMA0 57600
+Replace all the content with:
+```
+START_DAEMON=”true”
+USBAUTO=”false”
+DEVICES=”/dev/ttyAMA0 /dev/pps0″
+GPSD_OPTIONS=”-n -s 57600”
+```
+Restart the GPSd service:
+
+> sudo systemctl restart gpsd
 
 ### Revert to the default setting
 
@@ -354,3 +362,4 @@ As a failsafe, you might power it off and remove the CR1220 battery for a few mi
 - https://www.thingiverse.com/thing:2980860 *(top case part original design, not available ony more)*
 - https://www.thingiverse.com/thing:4200246
 - https://dimon.ca/how-to-build-own-stratum-1-ntp-server/#h.1kdm8ehjrplc
+- https://psychogun.github.io/docs/linux/Stratum-1-NTP-Server-using-Raspberry-Pi/
