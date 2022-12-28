@@ -368,3 +368,4 @@ As a failsafe, you might power it off and remove the CR1220 battery for a few mi
 - https://dimon.ca/how-to-build-own-stratum-1-ntp-server/#h.1kdm8ehjrplc
 - https://psychogun.github.io/docs/linux/Stratum-1-NTP-Server-using-Raspberry-Pi/
 - https://chrony.tuxfamily.org/faq.html#_how_can_i_improve_the_accuracy_of_the_system_clock_with_ntp_sources
+- https://tf.nist.gov/general/pdf/2871.pdf
