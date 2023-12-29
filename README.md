@@ -66,6 +66,9 @@ remove this ```console=serial0,115200``` sequence only and save.
 Add this to your '/boot/config.txt' file
 
 ```
+# Workarround a bug in PPS_FETCH https://github.com/raspberrypi/linux/issues/5430 + https://github.com/raspberrypi/linux/pull/5478
+arm_64bit=0
+
 # Uses the /dev/ttyAMA0 UART GPS instead of Bluetooth
 dtoverlay=miniuart-bt
 
