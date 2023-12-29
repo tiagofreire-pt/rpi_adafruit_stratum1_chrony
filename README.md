@@ -9,10 +9,10 @@ The end result with a Raspberry Pi 3B+ and an Adafruit Ultimate GPS HAT MTK3339:
 
 This is my recipe for Raspberry PI OS `Bullseye`, kernel 5.10.103-v7+.
 
-## Achievements @ December 2022:
+## Achievements @ December 2023:
 - [X] ns local clock timekeeping (std dev < 200 ns on PPS source)
-- [X] µs timekeeping across multiple networks (std dev < 100 µs)
-- [X] stable operation with low frequency value (usually < 10 ppm)
+- [X] µs timekeeping across multiple networks (RMS offset ~ 1 µs)
+- [X] stable operation with low frequency value (usually ~ 5 ppm)
 - [X] serve time to more than 160 clients (capable of many more)
 - [X] optimize the MK3339 for NMEA timming only
 - [X] increase the serial baudrate to its maximum (up to 57600 bps)
@@ -188,9 +188,9 @@ confdir /etc/chrony/conf.d
 # Use Debian vendor zone.
 # pool 2.debian.pool.ntp.org iburst
 
-# Portuguese zone ** CHANGE THIS ** -- DISABLE THIS FOR ISOLATED/AIRGAPED SYSTEMS
-pool 0.pt.pool.ntp.org iburst minpoll 5 maxpoll 5 polltarget 16 maxdelay 0.030 maxdelaydevratio 2 maxsources 6
-pool 1.pt.pool.ntp.org iburst minpoll 5 maxpoll 5 polltarget 16 maxdelay 0.030 maxdelaydevratio 2 maxsources 6
+# ** CHANGE THIS ** -- DISABLE THIS FOR ISOLATED/AIRGAPED SYSTEMS
+pool 0.pool.ntp.org iburst minpoll 5 maxpoll 5 polltarget 16 maxdelay 0.030 maxdelaydevratio 2 maxsources 6
+pool 1.pool.ntp.org iburst minpoll 5 maxpoll 5 polltarget 16 maxdelay 0.030 maxdelaydevratio 2 maxsources 6
 
 # ENABLE THIS FOR ISOLATED/AIRGAPED SYSTEMS
 #cmdport 0
@@ -263,13 +263,7 @@ dscp 48
 
 # set larger delay to allow the NMEA source to overlap with
 # the other sources and avoid the falseticker status
-#refclock SOCK /tmp/chrony.ttyAMA0.sock refid GPS precision 1e-1 offset 0.9999
-#refclock SOCK /tmp/chrony.pps0.sock refid PPS precision 1e-7
-
-
-# set larger delay to allow the NMEA source to overlap with
-# the other sources and avoid the falseticker status
-refclock SHM 0 refid GPS precision 1e-1 offset 0.47 delay 0.2
+refclock SHM 0 refid GPS precision 1e-1 offset 0.507 delay 0.2
 
 # Adds also 4 ns signal propagation delay per each 304,8mm of cable lenght, from the external GPS antenna to the board - if applicable
 refclock SHM 1 refid PPS precision 1e-7 prefer offset 65.62e-9
