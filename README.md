@@ -362,10 +362,12 @@ As a failsafe, you might power it off and remove the CR1220 battery for a few mi
 - http://www.philrandal.co.uk/blog/archives/2019/04/entry_213.html
 - https://chrony.tuxfamily.org/doc/4.2/chrony.conf.html#tempcomp
 - https://hallard.me/enable-serial-port-on-raspberry-pi/
-- https://www.thingiverse.com/thing:2980860 *(top case part original design, not available ony more)*
+- https://www.thingiverse.com/thing:2980860 *(top case part original design, not available anymore)*
 - https://www.thingiverse.com/thing:4200246
 - https://gpsd.gitlab.io/gpsd/gpsd-time-service-howto.html#_arp_is_the_sound_of_your_server_choking
 - https://dimon.ca/how-to-build-own-stratum-1-ntp-server/#h.1kdm8ehjrplc
 - https://psychogun.github.io/docs/linux/Stratum-1-NTP-Server-using-Raspberry-Pi/
 - https://chrony.tuxfamily.org/faq.html#_how_can_i_improve_the_accuracy_of_the_system_clock_with_ntp_sources
 - https://tf.nist.gov/general/pdf/2871.pdf
+- https://chrony-project.org/comparison.html (good reference on why I choose chrony over ntpd)
+- https://dotat.at/@/2023-05-26-whence-time.html (time chain of service)
