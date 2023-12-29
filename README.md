@@ -235,6 +235,10 @@ lock_all
 # Stop bad estimates upsetting machine clock.
 maxupdateskew 100.0
 
+# Use it as reference during chrony startup in case the clock needs a large adjustment.
+# The 1 indicates that if the system’s error is found to be 1 second or less, a slew will be used to correct it; if the error is above 1 secods, a step will be used.
+initstepslew 1 time.facebook.com time.google.com
+
 # enables response rate limiting for NTP packets - reduce the response rate for IP addresses sending packets on average more than once per 2 seconds, or sending packets in bursts of more than 16 packets, by up to 75% (with default leak of 2).
 ratelimit interval 1 burst 16 leak 2
 
@@ -263,10 +267,12 @@ dscp 48
 
 # set larger delay to allow the NMEA source to overlap with
 # the other sources and avoid the falseticker status
-refclock SHM 0 refid GPS precision 1e-1 offset 0.507 delay 0.2
+# https://chrony.tuxfamily.org/faq.html#using-pps-refclock
+refclock SHM 0 poll 4 refid GPS precision 1e-1 offset 0.502 delay 0.2
 
-# Adds also 4 ns signal propagation delay per each 304,8mm of cable lenght, from the external GPS antenna to the board - if applicable
-refclock SHM 1 refid PPS precision 1e-7 prefer offset 65.62e-9
+# (4ns per foot)-  http://www.philrandal.co.uk/blog/archives/2019/04/entry_213.html
+#refclock SHM 1 refid PPS precision 1e-7 prefer offset 65.62e-9
+refclock PPS /dev/pps0 lock GPS maxlockage 2 poll 4 refid PPS precision 1e-7 prefer offset 65.62e-9
 
 # Compares and saves the SoC temperature with the temperature correlation table bellow, every 30 seconds - future improvement
 tempcomp /sys/class/thermal/thermal_zone0/temp 30 /etc/chrony/chrony.tempcomp
