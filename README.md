@@ -13,7 +13,7 @@ This is my recipe for Raspberry Pi lite OS `Bookworm`, kernel 6.1.72-v8+.
 - [Achievements](./README.md#achievements--january-2024)
 - [List of materials and tools needed](./README.md#list-of-materials-and-tools-needed)
 - [Setup the server](./README.md#setup-the-server)
-- [Advanced Adafruit MK3339 chip tuning](./README.md#advanced_adafruit_mk3339_chip_tuning)
+- [Advanced Adafruit MK3339 chip tuning](./README.md#advanced-adafruit-mk3339-chip-tuning)
 - [Advanced system tuning](./README.md#advanced-system-tuning)
 - [References](./README.md#references)
 
