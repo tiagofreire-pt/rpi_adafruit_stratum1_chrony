@@ -333,7 +333,7 @@ Replace all the content with:
 ```
 START_DAEMON="true"
 USBAUTO="false"
-DEVICES="/dev/ttyAMA0 /dev/pps0″
+DEVICES="/dev/ttyAMA0 /dev/pps0"
 GPSD_OPTIONS="--nowait --passive --speed 57600"
 ```
 Restart the GPSd service
@@ -351,7 +351,7 @@ Replace all the content with:
 ```
 START_DAEMON="true"
 USBAUTO="false"
-DEVICES="/dev/ttyAMA0 /dev/pps0″
+DEVICES="/dev/ttyAMA0 /dev/pps0"
 GPSD_OPTIONS="--nowait --passive --speed 9600"
 ```
 Restart the GPSd service:
